@@ -117,6 +117,15 @@ classdef SVGWriter < handle
             this.add_line_to_svg(outlinestr);
         end
 
+        function add_rectangle2(this, x, y, varargin)
+%             validateattributes(x, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
+%             validateattributes(y, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
+            x(2) = x(2) + x(1); % function version where second x-argument is rectangle width
+            y(2) = y(2) + y(1); % function version where second x-argument is rectangle height
+            outlinestr = add_rectangle_to_svg(x, y, varargin{:});
+            this.add_line_to_svg(outlinestr);
+        end
+        
         function clear(this, N)
             if nargin < 2
                 N = numel(this.svg_lines);
