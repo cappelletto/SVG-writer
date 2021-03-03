@@ -104,8 +104,8 @@ classdef SVGWriter < handle
         end
 
         function add_line(this, x, y, varargin)
-            validateattributes(x, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
-            validateattributes(y, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
+%             validateattributes(x, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
+%             validateattributes(y, {'numeric'}, {'numel', 2, 'increasing', 'finite'});
             linestr = add_line_to_svg(x, y, varargin{:});
             this.add_line_to_svg(linestr);
         end
@@ -124,6 +124,40 @@ classdef SVGWriter < handle
             y(2) = y(2) + y(1); % function version where second x-argument is rectangle height
             outlinestr = add_rectangle_to_svg(x, y, varargin{:});
             this.add_line_to_svg(outlinestr);
+        end
+        
+        function open_group(this, id, varargin)
+            % parse optional style arguments
+            style = parse_styles(varargin{:});
+            group = sprintf('id="%s"', id);
+            % combine style and definition
+            str_outline = sprintf('<g style="%s" %s>', style.char, group);
+            this.add_line_to_svg(str_outline);
+        end
+        
+        function close_group(this)
+            outlinestr = "</g>";
+            this.add_line_to_svg(outlinestr);
+        end
+        
+        function open_layer(this, id, label, filter_id)
+            layer = sprintf('inkscape:groupmode="layer" id="%s" inkscape:label="%s"', id, label);
+            if exist('filter_id', 'var')
+                style = sprintf ('display:inline;filter:url(#%s)', filter_id);
+            else
+                style = 'display:inline';
+            end          
+            str_outline = sprintf('<g %s style="%s">', layer, style);
+            this.add_line_to_svg(str_outline);
+        end
+        
+        function close_layer(this)
+            outlinestr = "</g>";
+            this.add_line_to_svg(outlinestr);
+        end
+        
+        function add_filter(this, filter_string)
+            this.add_line_to_svg(filter_string);
         end
         
         function clear(this, N)

@@ -9,6 +9,9 @@ parser.addOptional('FillColor', '');
 parser.addOptional('FillAlpha', 1);
 parser.addOptional('StrokeColor', '');
 parser.addOptional('StrokeWidth', 1);
+parser.addOptional('StrokeOpacity', 1);
+parser.addOptional('StrokeDashArray', [2 1]);
+
 parser.parse(varargin{:}); % adds them to parser.Results
 
 % process options
@@ -16,7 +19,9 @@ style = "";
 style = addtolist(style, process('fill:%s', 'FillColor', parser));
 style = addtolist(style, process('fill-opacity:%g', 'FillAlpha', parser));
 style = addtolist(style, process('stroke:%s', 'StrokeColor', parser));
-style = addtolist(style, process('stroke-width:%d', 'StrokeWidth', parser));
+style = addtolist(style, process('stroke-width:%f', 'StrokeWidth', parser));
+style = addtolist(style, process('stroke-opacity:%f', 'StrokeOpacity', parser));
+style = addtolist(style, process('stroke-dasharray:%f,%f', 'StrokeDashArray', parser));
 
 end
 
