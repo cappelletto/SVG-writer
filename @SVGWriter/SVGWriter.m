@@ -1,7 +1,8 @@
 classdef SVGWriter < handle
     %SVGWRITER MATLAB class to write SVG files
     %   See also: SVGWriter/SVGWriter
-
+    %   Original:       https://github.com/janniklasrose/SVG-writer
+    %   Fork (this):    https://github.com/cappelletto/SVG-writer
     %TODO: docstrings for all methods
 
     properties % public properties that are set by the constructor but can be edited by the user
@@ -95,9 +96,6 @@ classdef SVGWriter < handle
         end
 
         function add_imagefile(this, filename, pos)
-%             if isvector(image) || ndims(image) > 3 || ~any(size(image, 3) == [1, 3])
-%                 error('Expected an image, either grayscale or RGB');
-%             end
             validateattributes(pos, {'numeric'}, {'numel', 2, 'finite'});
             imagestr = add_imagefile_to_svg(filename, pos);
             this.add_line_to_svg(imagestr);
@@ -158,6 +156,12 @@ classdef SVGWriter < handle
         
         function add_filter(this, filter_string)
             this.add_line_to_svg(filter_string);
+        end
+        
+        function add_text(this, x, y, text_string, varargin)
+            % full arg forward, this can be improved
+            str_outline = add_text_to_svg(x, y, text_string, varargin{:});
+            this.add_line_to_svg(str_outline);
         end
         
         function clear(this, N)

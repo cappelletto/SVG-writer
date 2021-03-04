@@ -7,6 +7,7 @@ parser.CaseSensitive = false;
 parser.PartialMatching = true;
 parser.addOptional('FillColor', '');
 parser.addOptional('FillAlpha', 1);
+parser.addOptional('FontSize', 10);
 parser.addOptional('StrokeColor', '');
 parser.addOptional('StrokeWidth', 1);
 parser.addOptional('StrokeOpacity', 1);
@@ -18,6 +19,7 @@ parser.parse(varargin{:}); % adds them to parser.Results
 style = "";
 style = addtolist(style, process('fill:%s', 'FillColor', parser));
 style = addtolist(style, process('fill-opacity:%g', 'FillAlpha', parser));
+style = addtolist(style, process('font-size:%f', 'FontSize', parser));
 style = addtolist(style, process('stroke:%s', 'StrokeColor', parser));
 style = addtolist(style, process('stroke-width:%f', 'StrokeWidth', parser));
 style = addtolist(style, process('stroke-opacity:%f', 'StrokeOpacity', parser));
